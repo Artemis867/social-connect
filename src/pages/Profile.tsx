@@ -27,6 +27,7 @@ function Profile() {
     const fetchStatusList = async () => {
       if(!isMounted) return;
       const res = await axios.get("http://localhost:4000/status/all");
+      
       if(isMounted) setStatusList(res.data);
     };
     

@@ -7,7 +7,8 @@ interface StatusData {
   status: string,
 };
 
-function StatusInput({onSetStatus} : {onSetStatus: Function}) {
+
+function StatusInput ({onSetStatus} : {onSetStatus: (status: string | number) => void}) {
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const onSubmit = (data: StatusData) => {
