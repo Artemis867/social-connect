@@ -13,12 +13,17 @@ function StatusList({statusList, onUpdateStatus, onDeleteStatus} : {statusList: 
     onDeleteStatus(statusId);
   }
 
+  useEffect(() => {
+    console.log('[TRACK] statusList');
+    console.log(statusList);
+  }, [statusList]);
+
   return(
     <>
       { statusList && statusList.map((status: StatusData) => 
       (
         <Card className="m-2 p-2" key={status.statusId}>
-          <UpdateStatusField status={status} onProcessStatus={onProcessStatus} onProcessDeleteStatus={onProcessDeleteStatus}/>
+          <UpdateStatusField id={status._id} status={status} onProcessStatus={onProcessStatus} onProcessDeleteStatus={onProcessDeleteStatus}/>
         </Card>
       ))}
     </>

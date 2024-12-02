@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Card, FormControl, Button } from "react-bootstrap";
+import StatusData from "./Status.interface";
+import axios from "axios";
 
-function UpdateStatusField({status, onProcessStatus, onProcessDeleteStatus}) {
+
+function UpdateStatusField({id ,status, onProcessStatus, onProcessDeleteStatus} : {
+  id: string | number,
+  status: StatusData,
+  onProcessStatus: (statusId: number, status: string) => void
+  onProcessDeleteStatus: (statusId: number) => void 
+}) {
 
   const [value, setValue] = useState('');
   const [onUpdateField, setOnUpdateField] = useState(false);
 
-  const handleChange = (e) => {
-    console.log(e.target.value);
-    setValue(e.target.value);
-  };
-
-  const handleUpdateStatus = () => {
+  const handleUpdateStatus = async () => {
     onProcessStatus(status.statusId, value);
     setOnUpdateField(false);
+
+    await axios.post("http://localhost:4000/status/update", {id, newStatus: value});
   }
 
-  const handleDeleteStatus = () => {
+  const handleDeleteStatus = async () => {
     onProcessDeleteStatus(status.statusId);
+    await axios.post("http://localhost:4000/status/delete", {id});
   }
 
   const handleOnUpdateField = () => {
@@ -33,7 +39,7 @@ function UpdateStatusField({status, onProcessStatus, onProcessDeleteStatus}) {
               type="text" 
               placeholder="Enter text" 
               defaultValue={status.statusContent} 
-              onChange={e => handleChange(e)} 
+              onChange={e => setValue(e.target.value)} 
             />
           ) : 
           (
